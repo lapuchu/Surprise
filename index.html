@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>For You ❤️</title>
+    <title>Madhukulya</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Sacramento&family=Montserrat:wght@400;700&family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
     
     <style>
         body {
@@ -49,9 +49,10 @@
             border-radius: 10px;
         }
 
+        /* --- CHANGED: Standard Romantic Font --- */
         h1 {
             color: #d63384; 
-            font-family: 'Sacramento', cursive; 
+            font-family: 'Dancing Script', cursive; /* Cleaner romantic font */
             font-size: 2.5rem;
             margin: 0 0 20px 0;
             line-height: 1.2;
@@ -78,23 +79,27 @@
             font-family: 'Montserrat', sans-serif;
             -webkit-tap-highlight-color: transparent;
             outline: none;
-            transition: transform 0.1s ease; /* Smooth movement */
+            transition: transform 0.1s ease; 
         }
 
         #yesBtn {
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            background-color: #2ecc71; /* Green */
             color: white;
             z-index: 20; 
         }
 
-        #noBtn {
-            background-color: white;
-            color: #ff416c;
-            border: 2px solid #ff416c;
-            position: relative; 
-            z-index: 30; /* Ensure it stays on top of everything */
+        #yesBtn:hover {
+            background-color: #27ae60; 
+            transform: scale(1.1);
         }
 
+        #noBtn {
+            background-color: #e74c3c; /* Red */
+            color: white;
+            position: relative; 
+            z-index: 30; 
+        }
+        
         /* --- Popup Styling --- */
         #customModal {
             display: none; 
@@ -131,26 +136,27 @@
             font-size: 1.5rem;
             color: #333;
             margin-bottom: 20px;
-            font-family: 'Sacramento', cursive;
+            font-family: 'Dancing Script', cursive; /* Matches header */
         }
 
-        .angry-text {
-            font-family: 'Permanent Marker', cursive !important;
-            color: #cc0000 !important;
+        /* --- CHANGED: Sad/Emotional Font Style --- */
+        .sad-text {
+            font-family: 'Caveat', cursive !important; /* Handwritten style */
+            color: #333 !important; /* Dark grey, not angry red */
             font-size: 1.8rem !important;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: shake 0.5s;
+            font-weight: bold;
+            line-height: 1.3;
+            animation: pulse 2s infinite; /* Gentle heartbeat instead of shaking */
         }
 
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .modal-btn {
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            background-color: #e74c3c; 
             color: white;
             padding: 10px 25px;
             border-radius: 25px;
@@ -176,10 +182,10 @@
 
     <div class="glass-container">
         <div class="gif-container">
-            <img src="https://media1.tenor.com/m/mMLiZ3hB-vQAAAAC/milk-and-mocha-bear.gif" alt="Cute Bear">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmo3c3l5ODh3ZGN6NHh4aDV0Ynh6M2l6OWxjMXBxeWJ6ZDM5MnZ5dyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/cLS1cfxvGOPVpf9g3y/giphy.gif" alt="Cute Bear">
         </div>
 
-        <h1>Will you be my valentine?</h1>
+        <h1>Will you be my valentine? 🌹</h1>
 
         <div class="buttons">
             <button id="yesBtn" onclick="acceptLove()">Yes</button>
@@ -189,7 +195,7 @@
 
     <div id="customModal">
         <div class="modal-content" id="modalContent">
-            <p class="modal-text" id="modalText">Are you messing with me girl?</p>
+            <p class="modal-text" id="modalText">Placeholder Text</p>
             <button class="modal-btn" id="modalBtn" onclick="closeModal()">No</button>
         </div>
     </div>
@@ -208,60 +214,50 @@
             hoverCount++;
 
             if (hoverCount === 10) {
-                modalText.innerText = "ARE YOU MESSING WITH ME?!";
-                modalText.classList.add('angry-text');
-                modalContent.style.border = "4px solid #cc0000";
+                // --- CHANGED: Emotional Text for Udi ---
+                modalText.innerText = "Ouch... stops it Udi! You are hurting my feelings! 🥺💔";
+                modalText.classList.add('sad-text'); // Applies the handwritten font
+                
+                // Changed border to a sad blue-ish grey instead of angry red
+                modalContent.style.border = "4px solid #7f8c8d"; 
+                
                 modalBtn.style.display = "inline-block"; 
                 modal.style.display = "flex";
                 hoverCount = 0; 
                 return; 
             }
 
-            // Get viewport dimensions
             const viewportWidth = window.innerWidth;
             const viewportHeight = window.innerHeight;
-            
-            // Get button dimensions
-            const btnWidth = noBtn.offsetWidth;
-            const btnHeight = noBtn.offsetHeight;
+            const btnRect = noBtn.getBoundingClientRect();
+            const btnWidth = btnRect.width;
+            const btnHeight = btnRect.height;
 
-            // --- THE SAFETY FIX ---
-            // Calculate max positions ensuring button stays fully inside
-            // We subtract the button size AND a 20px padding
-            const maxLeft = viewportWidth - btnWidth - 20;
-            const maxTop = viewportHeight - btnHeight - 20;
+            const maxLeft = viewportWidth - btnWidth - 50;
+            const maxTop = viewportHeight - btnHeight - 50;
 
-            // Ensure we don't get negative numbers if screen is tiny
-            const safeMaxLeft = Math.max(0, maxLeft);
-            const safeMaxTop = Math.max(0, maxTop);
+            const randomLeft = Math.max(20, Math.random() * maxLeft);
+            const randomTop = Math.max(20, Math.random() * maxTop);
 
-            // Generate random position within safe bounds
-            // We add 10px to avoid hugging the very top/left edge
-            const randomLeft = Math.floor(Math.random() * safeMaxLeft) + 10;
-            const randomTop = Math.floor(Math.random() * safeMaxTop) + 10;
-
-            // Apply position
             noBtn.style.position = "fixed"; 
             noBtn.style.left = randomLeft + "px";
             noBtn.style.top = randomTop + "px";
         }
 
-        // Attach listeners
         noBtn.addEventListener('mouseover', triggerMove);
         noBtn.addEventListener('touchstart', triggerMove);
         noBtn.addEventListener('click', triggerMove);
 
         function closeModal() {
             modal.style.display = "none";
-            modalText.classList.remove('angry-text');
+            modalText.classList.remove('sad-text');
             modalContent.style.border = "4px solid #FFD700"; 
         }
 
         function acceptLove() {
-            modalText.classList.remove('angry-text');
+            modalText.classList.remove('sad-text');
             modalContent.style.border = "4px solid #FFD700"; 
             
-            // Correct Final Message
             modalText.innerHTML = "You just made me the happiest person in the world! ❤️";
             
             modalBtn.style.display = "none";
